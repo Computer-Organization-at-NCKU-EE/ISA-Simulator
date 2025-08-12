@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "iss.h"
 
-int main(void) { return 0; }
+int main(void) { printf("Hello, World!\n"); }

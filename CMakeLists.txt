@@ -14,13 +14,13 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Build rules for target main
-add_executable(
-  # target name
-  main
-  # sources
-  src/main.c
-  src/iss.c
-  src/mem.c
-  src/util.c
-)
-target_include_directories(main PUBLIC ${PROJECT_SOURCE_DIR}/include)
+add_subdirectory(src)
+
+# Testing
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  include(CTest)
+endif()
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+  add_subdirectory(tests)
+endif()
