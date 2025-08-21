@@ -1,23 +1,22 @@
 #ifndef __ISS_H__
 #define __ISS_H__
 
-/* 64-KiB main memory by default */
-#define MEM_SIZE 0x10000
-// 0x is hex, 0x10000 = 16^4 = 2^16 = 2^6 * 2^10 = 2^6 * 1KB = 64KB
+#include "arch.h"
 
 #include <stdbool.h>
-#include "riscv.h"
 
-typedef struct {
-    reg_t current_pc, new_pc; // program counter
-    reg_t gpr[32];            // general purpose registers
-    uint8_t mem[MEM_SIZE];    // main memory
-    uint8_t reg_for_getchar;  // MMIO register
-    bool halt;                // determine whether to stop
-} cpu_state_t;
+// forward declaration
+typedef struct iss_state iss_state_t;
 
-/* functions to manipulate processor itself */
-extern bool processor_init(cpu_state_t **proc_ptr);
-extern void processor_fini(cpu_state_t **proc_ptr);
+// Public APIs to manipulate the ISS object
+// for initializetion and finalization
+extern void iss_init(iss_state_t **iss_ptr);
+extern void iss_fini(iss_state_t **iss_ptr);
+// for Reference-Model-Based Verification with RTL model
+extern void iss_init_mem_map(iss_state_t* iss_ptr);
+extern void iss_get_main_memory(addr_t base_addr, unsigned length);
+extern bool iss_set_main_memory();
+extern arch_state_t iss_get_arch_state();
+extern void iss_set_arch_state();
 
 #endif
