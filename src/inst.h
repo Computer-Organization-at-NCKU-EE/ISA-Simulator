@@ -52,7 +52,7 @@ typedef union {
         int64_t imm_20 : 1; // highest imm
     } J_TYPE;
     uint32_t raw;
-} riscv_inst_t;
+} inst_t;
 
 /*
  * The name without any suffix (e.g., _FUNC3) represents the OPCODE type
@@ -111,14 +111,11 @@ typedef enum {
 } LOAD_FUNC3;
 
 /*
- * Note that the SYSTEM type instructions use the I-Type format
- */
+// Note that the SYSTEM type instructions use the I-Type format
 typedef enum {
     ECALL_FUNC12 = 0b000000000000,
     EBREAK_FUNC12 = 0b000000000001,
 } SYSTEM_FUNC12;
-
-// define register type
-typedef uint32_t reg_t;
+ */
 
 #endif

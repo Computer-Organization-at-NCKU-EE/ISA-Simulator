@@ -1,3 +1,4 @@
 CompileFlags:
-    Add:
-    - -I${workspaceFolder}/include
+    Add: [-I../include, -Wall]
+    Compiler: gcc
+

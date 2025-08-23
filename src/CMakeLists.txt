@@ -3,14 +3,21 @@ add_executable(iss)
 target_sources(iss
   PRIVATE
     main.c
-    mem.c
-    util.c
     iss.c
+    core.c
+    main_mem.c
+    rom.c
+    halt.c
+    text_buffer.c
+    mem_map.c
+    load_elf.c
+    tick.c
+    abstract_mem.c
 )
 
 target_include_directories(iss
   PUBLIC
     ${CMAKE_SOURCE_DIR}/include
-  PUBLIC
+  PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )

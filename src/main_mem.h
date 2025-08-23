@@ -1,0 +1,16 @@
+#ifndef __MAIN_MEM_H__
+#define __MAIN_MEM_H__
+
+#include "abstract_mem.h"
+#include "arch.h"
+
+#define MAIN_MEM_SIZE 0x10000
+
+typedef struct {
+    AbstractMem abstract_mem_super;
+    byte_t mem[MAIN_MEM_SIZE];
+} MainMem;
+
+extern void MainMem_ctor(MainMem *self);
+
+#endif
