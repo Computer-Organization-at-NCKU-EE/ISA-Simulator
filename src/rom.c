@@ -9,14 +9,12 @@
 
 DECLARE_ABSTRACT_MEM_LOAD(ROM) {
     Assert(self != NULL, "self should not be NULL");
-    Assert(base_addr >= ROM_MMAP_BASE &&
-               base_addr + length < ROM_MMAP_BASE + ROM_SIZE,
-           "");
+    Assert(base_addr + length <= ROM_SIZE, "");
     Assert(length == 4, "");
 
     ROM *self_ = container_of(self, ROM, super);
     for (int i = 0; i < length; i++) {
-        buffer[i] = self_->boot_rom[i];
+        buffer[i] = self_->boot_rom[base_addr + i];
     }
 }
 

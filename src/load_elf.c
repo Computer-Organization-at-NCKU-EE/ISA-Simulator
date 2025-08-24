@@ -17,8 +17,8 @@ void load_elf(const char *file_name, byte_t *buffer, unsigned long buffer_size,
     Assert(f != NULL, "Fail to open file: %s", file_name);
 
     /* read ELF header */
-    Elf64_Ehdr elf_header;
-    if (fread(&elf_header, sizeof(Elf64_Ehdr), 1, f) != 1) {
+    Elf32_Ehdr elf_header;
+    if (fread(&elf_header, sizeof(Elf32_Ehdr), 1, f) != 1) {
         Panic("Failed to load ELF header from the file: %s\n", file_name);
         goto end;
     }
@@ -44,7 +44,7 @@ void load_elf(const char *file_name, byte_t *buffer, unsigned long buffer_size,
     /* get the entry-point of the ELF file */
     reg_t entry = elf_header.e_entry;
     *entry_pc = entry;
-    LOG("Initialize Program Counter: %ux\n", entry);
+    LOG("Initialize Program Counter: 0x%08x\n", entry);
 
     /* try to read Program Header */
     for (int i = 0; i < elf_header.e_phnum; i++) {
@@ -54,7 +54,7 @@ void load_elf(const char *file_name, byte_t *buffer, unsigned long buffer_size,
             Panic("fail to load program header");
             goto end;
         }
-        Elf64_Phdr prog_header;
+        Elf32_Phdr prog_header;
         if (fread(&prog_header, sizeof(Elf32_Phdr), 1, f) != 1) {
             Panic("Fail to read the file: %s", file_name);
             goto end;
@@ -63,15 +63,15 @@ void load_elf(const char *file_name, byte_t *buffer, unsigned long buffer_size,
         /* try to load each "loadable" sections into buffer */
         if (prog_header.p_type == PT_LOAD) {
             if (fseek(f, prog_header.p_offset, SEEK_SET) != 0) {
-                Panic("Fail to seek the file");
+                fprintf(stderr, "Fail to seek the file\n");
                 goto end;
             }
-            LOG("Load a section with padder 0x%08x and p_memsz 0x%08x\n",
-                (unsigned int)prog_header.p_vaddr,
-                (unsigned int)prog_header.p_memsz);
+            LOG("Load a section with padder 0x%08x, p_memsz 0x%08x and "
+                "p_filesz: 0x%08x\n",
+                prog_header.p_vaddr, prog_header.p_memsz, prog_header.p_filesz);
             if (fread(&buffer[prog_header.p_vaddr - MAIN_MEM_MMAP_BASE],
-                      prog_header.p_memsz, 1, f) != 1) {
-                Panic("Failed to load section in ELF file");
+                      prog_header.p_filesz, 1, f) != 1) {
+                fprintf(stderr, "Failed to load section in ELF file\n");
                 goto end;
             }
         }

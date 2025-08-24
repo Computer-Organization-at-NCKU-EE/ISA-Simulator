@@ -86,7 +86,6 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         break;
     }
     case BRANCH: {
-
         ret.reg_rs1_index = rs1;
         ret.reg_rs2_index = rs2;
         ret.reg_rs1_val = self->arch_state.gpr[rs1];
@@ -94,7 +93,7 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         ret.imm_signext =
             (inst.B_TYPE.imm_12 << 12) + (inst.B_TYPE.imm_11 << 11) +
             (inst.B_TYPE.imm_10_5 << 5) + (inst.B_TYPE.imm_4_1 << 1);
-        ret.alu_op1_sel = reg_rs1;
+        ret.alu_op1_sel = current_pc;
         ret.alu_op2_sel = imm_sign_ext;
         ret.is_branch = true;
         ret.rd_write_sel = skip;
@@ -204,16 +203,16 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         switch (func3) {
         case LBU_FUNC3:
         case SB_FUNC3: {
-            ret.mem_length = 1;
+            ret.mem_length = one;
             break;
         }
         case SH_FUNC3:
         case LHU_FUNC3: {
-            ret.mem_length = 2;
+            ret.mem_length = two;
             break;
         }
         default: {
-            ret.mem_length = 4;
+            ret.mem_length = four;
         }
         }
     }

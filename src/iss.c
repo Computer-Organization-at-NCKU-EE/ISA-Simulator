@@ -22,6 +22,7 @@ int ISS_ctor(ISS *self, const char *elf_file_name) {
     ROM_ctor(&self->rom_mmio);
     MainMem_ctor(&self->main_mem_mmio);
     TextBuffer_ctor(&self->text_buffer_mmio);
+    Halt_ctor(&self->halt_mmio);
 
     // add ROM into core's mmap
     mmap_unit_t ROM_mmap_unit = {
@@ -70,7 +71,8 @@ void ISS_dtor(ISS *self) {
 void ISS_step(ISS *self, unsigned long n_step) {
     for (unsigned i = 0; i < n_step; i++) {
         // check halt flag
-        if (unlikely(self->halt_mmio.halt_flag == false)) {
+        if (unlikely(self->halt_mmio.halt_flag == true)) {
+            printf("reg $gp: %x", self->core.arch_state.gpr[3]);
             return;
         }
         // tick all tickable devices (includes core itself)

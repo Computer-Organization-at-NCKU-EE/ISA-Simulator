@@ -9,9 +9,7 @@
 
 DECLARE_ABSTRACT_MEM_LOAD(TextBuffer) {
     Assert(self != NULL, "");
-    Assert(base_addr >= TEXT_BUFFER_MMAP_BASE &&
-               base_addr + length < TEXT_BUFFER_MMAP_BASE + TEXT_BUFFER_SIZE,
-           "");
+    Assert(base_addr + length <= TEXT_BUFFER_SIZE, "");
     Assert(length == 1, "");
 
     TextBuffer *self_ = container_of(self, TextBuffer, abstract_mem_super);
@@ -20,9 +18,7 @@ DECLARE_ABSTRACT_MEM_LOAD(TextBuffer) {
 
 DECLARE_ABSTRACT_MEM_STORE(TextBuffer) {
     Assert(self != NULL, "");
-    Assert(base_addr >= TEXT_BUFFER_MMAP_BASE &&
-               base_addr + length < TEXT_BUFFER_MMAP_BASE + TEXT_BUFFER_SIZE,
-           "");
+    Assert(base_addr + length <= TEXT_BUFFER_SIZE, "");
     Assert(length == 1, "");
 
     TextBuffer *self_ = container_of(self, TextBuffer, abstract_mem_super);

@@ -9,9 +9,7 @@
 DECLARE_ABSTRACT_MEM_LOAD(Halt) {
     // assertions
     Assert(self != NULL, "");
-    Assert(base_addr >= HALT_MMAP_BASE &&
-               base_addr + length < HALT_MMAP_BASE + HALT_SIZE,
-           "");
+    Assert(base_addr + length <= HALT_SIZE, "");
     Assert(length == 1, "");
 
     // load into buffer
@@ -22,9 +20,7 @@ DECLARE_ABSTRACT_MEM_LOAD(Halt) {
 DECLARE_ABSTRACT_MEM_STORE(Halt) {
     // assertions
     Assert(self != NULL, "");
-    Assert(base_addr >= HALT_MMAP_BASE &&
-               base_addr + length < HALT_MMAP_BASE + HALT_SIZE,
-           "");
+    Assert(base_addr + length <= HALT_SIZE, "");
     Assert(length == 1, "");
 
     // load ref_data into Halt internal flag
@@ -40,4 +36,7 @@ void Halt_ctor(Halt *self) {
         .load = &SIGNATURE_ABSTRACT_MEM_LOAD(Halt),
         .store = &SIGNATURE_ABSTRACT_MEM_STORE(Halt)};
     self->super.vtbl = &vtbl;
+
+    // initialize jalt_flag
+    self->halt_flag = false;
 }

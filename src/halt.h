@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 #define HALT_MMAP_BASE 0xfffffffc
-#define HALT_SIZE 0x4
+#define HALT_SIZE 0x1
 
 typedef struct {
     // super classes

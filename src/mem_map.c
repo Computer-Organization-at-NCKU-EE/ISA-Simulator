@@ -61,7 +61,9 @@ void MemoryMap_generic_load(MemoryMap *self, addr_t base_addr, unsigned length,
     assert((mmap_unit_ptr != NULL) && "MMIO device not found!");
 
     // call generic load function of the device
-    AbstractMem_load(mmap_unit_ptr->device_ptr, base_addr, length, buffer);
+    AbstractMem_load(mmap_unit_ptr->device_ptr,
+                     base_addr - mmap_unit_ptr->addr_bound.first, length,
+                     buffer);
 }
 
 void MemoryMap_generic_store(MemoryMap *self, addr_t base_addr, unsigned length,
@@ -79,5 +81,7 @@ void MemoryMap_generic_store(MemoryMap *self, addr_t base_addr, unsigned length,
     assert((mmap_unit_ptr != NULL) && "MMIO device not found!");
 
     // call generic store function of the device
-    AbstractMem_store(mmap_unit_ptr->device_ptr, base_addr, length, ref_data);
+    AbstractMem_store(mmap_unit_ptr->device_ptr,
+                      base_addr - mmap_unit_ptr->addr_bound.first, length,
+                      ref_data);
 }
