@@ -26,7 +26,7 @@ DECLARE_TICK_TICK(TextBuffer) {
     }
 }
 
-void TextBuffer_init(TextBuffer *self) {
+void TextBuffer_ctor(TextBuffer *self) {
     assert(self != NULL);
 
     // Tick vtable initialization

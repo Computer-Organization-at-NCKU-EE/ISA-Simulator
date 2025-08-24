@@ -1,5 +1,9 @@
 #include <stdio.h>
 
 #include "iss.h"
+#include "common.h"
 
-int main(void) { printf("Hello, World!\n"); }
+int main(int argc, char **argv) {
+    //
+    Panic("OMG");
+}

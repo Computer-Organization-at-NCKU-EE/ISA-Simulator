@@ -60,9 +60,7 @@ typedef union {
 typedef enum {
     /* 12 types in total */
     OP = 0b0110011,
-    OP_32 = 0b0111011,
     OP_IMM = 0b0010011,
-    OP_IMM_32 = 0b0011011,
     LOAD = 0b0000011,
     STORE = 0b0100011,
     BRANCH = 0b1100011,
@@ -70,7 +68,7 @@ typedef enum {
     JALR = 0b1100111,
     AUIPC = 0b0010111,
     LUI = 0b0110111,
-    SYSTEM = 0b1110011,
+    // SYSTEM = 0b1110011,
 } OPCODE;
 
 typedef enum {
