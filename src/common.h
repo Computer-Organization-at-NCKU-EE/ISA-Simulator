@@ -2,6 +2,7 @@
 #define __COMMON_H__
 
 #include <assert.h>
+#include <stdio.h>
 
 // offsetof() macro
 #define offsetof(type, member) __builtin_offsetof(type, member)
@@ -37,5 +38,8 @@
 /* likely() and unlikely() macro */
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
+
+/* LOG() macro */
+#define LOG(format, ...) printf("[LOG MESSAGE] " format, ##__VA_ARGS__)
 
 #endif

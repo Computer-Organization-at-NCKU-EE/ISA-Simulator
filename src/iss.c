@@ -3,6 +3,7 @@
 #include "common.h"
 #include "arch.h"
 #include "core.h"
+#include "load_elf.h"
 #include "mem_map.h"
 #include "tick.h"
 #include "main_mem.h"
@@ -13,18 +14,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-struct iss {
-    // core part (RISC-V processor)
-    Core core;
-
-    // MMIO devices
-    ROM rom_mmio;
-    MainMem main_mem_mmio;
-    TextBuffer text_buffer_mmio;
-    Halt halt_mmio;
-};
-
-int ISS_ctor(ISS *self) {
+int ISS_ctor(ISS *self, const char *elf_file_name) {
     assert(self != NULL);
 
     // call constructors
@@ -41,7 +31,7 @@ int ISS_ctor(ISS *self) {
     Core_add_device(&self->core, ROM_mmap_unit);
 
     // add main memory into core's mmap
-    addr_t main_mem_base = 0x8000000;
+    addr_t main_mem_base = MAIN_MEM_MMAP_BASE;
     mmap_unit_t main_mem_mmap_unit = {
         .addr_bound = {.first = main_mem_base,
                        .second = main_mem_base + MAIN_MEM_SIZE},
@@ -62,6 +52,10 @@ int ISS_ctor(ISS *self) {
         .addr_bound = {.first = halt_base, .second = halt_base + 0x4},
         .device_ptr = (AbstractMem *)&self->halt_mmio};
     Core_add_device(&self->core, halt_mmap_unit);
+
+    // load ELF into main memory, and initialize PC
+    load_elf(elf_file_name, self->main_mem_mmio.mem, MAIN_MEM_SIZE,
+             &self->core.arch_state.current_pc);
 
     return 0;
 }

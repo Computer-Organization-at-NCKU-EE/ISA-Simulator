@@ -5,7 +5,7 @@
 #include "arch.h"
 
 // define ROM byte size
-#define ROM_SIZE 0x20
+#define ROM_SIZE 0x4
 
 typedef struct {
     // parent class

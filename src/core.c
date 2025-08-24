@@ -350,20 +350,20 @@ static void Core_execute(Core *self, uop_t uop) {
     // perform write-back in need
     switch (uop.rd_write_sel) {
     case pc_plus_4: {
-        if (uop.rd_index != 0) {
-            self->arch_state.gpr[uop.rd_index] = uop.pc + 4;
+        if (uop.reg_rd_index != 0) {
+            self->arch_state.gpr[uop.reg_rd_index] = uop.pc + 4;
         }
         break;
     }
     case alu_result: {
-        if (uop.rd_index != 0) {
-            self->arch_state.gpr[uop.rd_index] = alu_cal_result;
+        if (uop.reg_rd_index != 0) {
+            self->arch_state.gpr[uop.reg_rd_index] = alu_cal_result;
         }
         break;
     }
     case mem_load: {
-        if (uop.rd_index != 0) {
-            self->arch_state.gpr[uop.rd_index] = mem_load_buffer;
+        if (uop.reg_rd_index != 0) {
+            self->arch_state.gpr[uop.reg_rd_index] = mem_load_buffer;
         }
         break;
     }

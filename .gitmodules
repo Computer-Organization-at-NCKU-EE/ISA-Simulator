@@ -1,0 +1,4 @@
+[submodule "riscv-tests"]
+	path = riscv-tests
+	url = ssh://git@gitlab.aislab.ee.ncku.edu.tw:3175/comporg-fall-2025-wip/riscv-tests.git
+	branch = no-priv

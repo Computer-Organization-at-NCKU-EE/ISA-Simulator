@@ -2,7 +2,6 @@
 #define __HALT_H__
 
 #include "abstract_mem.h"
-#include "tick.h"
 
 #include <stdbool.h>
 

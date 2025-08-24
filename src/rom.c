@@ -1,5 +1,7 @@
 #include "rom.h"
+
 #include "abstract_mem.h"
+#include "common.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -8,11 +10,9 @@ DECLARE_ABSTRACT_MEM_LOAD(ROM) {
     //
 }
 
-DECLARE_ABSTRACT_MEM_STORE(ROM) {
-    //
-}
+DECLARE_ABSTRACT_MEM_STORE(ROM) { Panic("ROM should not be modified!"); }
 
-void ROM_init(ROM *self) {
+void ROM_ctor(ROM *self) {
     assert(self != NULL);
     AbstractMem_ctor(&self->abstract_mem_base);
     static struct AbstractMemVtbl const vtbl = {
@@ -21,5 +21,6 @@ void ROM_init(ROM *self) {
     self->abstract_mem_base.vtbl = &vtbl; // replace vtbl of base class
 
     // initialize boot rom code
-    // byte_t init_code[] = {0x97, 0x2, 0x00, 0x00};
+    byte_t init_code[] = {0x97, 0x2, 0x00, 0x00};
+    self->boot_rom = init_code;
 }
