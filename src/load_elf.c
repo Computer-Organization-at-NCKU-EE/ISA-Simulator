@@ -44,7 +44,7 @@ void load_elf(const char *file_name, byte_t *buffer, unsigned long buffer_size,
     /* get the entry-point of the ELF file */
     reg_t entry = elf_header.e_entry;
     *entry_pc = entry;
-    LOG("Initialize Program Counter: %u\n", entry);
+    LOG("Initialize Program Counter: %ux\n", entry);
 
     /* try to read Program Header */
     for (int i = 0; i < elf_header.e_phnum; i++) {

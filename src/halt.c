@@ -8,9 +8,11 @@
 
 DECLARE_ABSTRACT_MEM_LOAD(Halt) {
     // assertions
-    assert(self != NULL);
-    assert(buffer != NULL);
-    assert(((base_addr == 0) && (length == 1)) && "Halt assertion fail!");
+    Assert(self != NULL, "");
+    Assert(base_addr >= HALT_MMAP_BASE &&
+               base_addr + length < HALT_MMAP_BASE + HALT_SIZE,
+           "");
+    Assert(length == 1, "");
 
     // load into buffer
     Halt *self_ = container_of(self, Halt, super);
@@ -19,9 +21,11 @@ DECLARE_ABSTRACT_MEM_LOAD(Halt) {
 
 DECLARE_ABSTRACT_MEM_STORE(Halt) {
     // assertions
-    assert(self != NULL);
-    assert(ref_data != NULL);
-    assert(((base_addr == 0) && (length == 1)) && "Halt assertion fail!");
+    Assert(self != NULL, "");
+    Assert(base_addr >= HALT_MMAP_BASE &&
+               base_addr + length < HALT_MMAP_BASE + HALT_SIZE,
+           "");
+    Assert(length == 1, "");
 
     // load ref_data into Halt internal flag
     Halt *self_ = container_of(self, Halt, super);
@@ -32,7 +36,7 @@ void Halt_ctor(Halt *self) {
     assert((self != NULL) && "Halt *self should not be null ptr");
 
     AbstractMem_ctor(&self->super);
-    struct AbstractMemVtbl const vtbl = {
+    static struct AbstractMemVtbl const vtbl = {
         .load = &SIGNATURE_ABSTRACT_MEM_LOAD(Halt),
         .store = &SIGNATURE_ABSTRACT_MEM_STORE(Halt)};
     self->super.vtbl = &vtbl;

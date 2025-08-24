@@ -21,3 +21,9 @@ target_include_directories(iss
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_compile_options(iss
+  PUBLIC
+    # -Wall -Wextra -Wpedantic -Werror
+    -Wall
+)

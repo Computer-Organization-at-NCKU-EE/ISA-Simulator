@@ -4,12 +4,12 @@
 #include "abstract_mem.h"
 #include "arch.h"
 
-// define ROM byte size
+#define ROM_MMAP_BASE 0x0
 #define ROM_SIZE 0x4
 
 typedef struct {
     // parent class
-    AbstractMem abstract_mem_base;
+    AbstractMem super;
 
     // the rom itself
     byte_t boot_rom[ROM_SIZE];

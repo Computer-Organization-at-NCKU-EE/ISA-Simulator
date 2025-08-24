@@ -8,7 +8,7 @@
 #define MAIN_MEM_SIZE 0x10000
 
 typedef struct {
-    AbstractMem abstract_mem_super;
+    AbstractMem super;
     byte_t mem[MAIN_MEM_SIZE];
 } MainMem;
 

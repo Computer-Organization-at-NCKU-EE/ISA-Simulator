@@ -17,7 +17,7 @@ static inst_t Core_fetch(Core *self) {
     MemoryMap_generic_load(&self->mem_map, self->arch_state.current_pc, 4,
                            inst_in_bytes);
     // transformation
-    inst_t ret;
+    inst_t ret = {};
     ret.raw |= (reg_t)inst_in_bytes[0];
     ret.raw |= (reg_t)inst_in_bytes[1] << 8;
     ret.raw |= (reg_t)inst_in_bytes[2] << 16;
@@ -55,7 +55,7 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         ret.reg_rs1_index = rs1;
         ret.reg_rd_index = rd;
         ret.reg_rs1_val = self->arch_state.gpr[rs1];
-        ret.imm_signext = (int32_t)inst.I_TYPE.imm_11_0;
+        ret.imm_signext = inst.I_TYPE.imm_11_0;
         ret.alu_op1_sel = reg_rs1;
         ret.alu_op2_sel = imm_sign_ext;
         ret.rd_write_sel = alu_result;
@@ -65,7 +65,7 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         ret.reg_rs1_index = rs1;
         ret.reg_rd_index = rd;
         ret.reg_rs1_val = self->arch_state.gpr[rs1];
-        ret.imm_signext = (int32_t)inst.I_TYPE.imm_11_0;
+        ret.imm_signext = inst.I_TYPE.imm_11_0;
         ret.alu_op1_sel = reg_rs1;
         ret.alu_op2_sel = imm_sign_ext;
         ret.rd_write_sel = alu_result;
@@ -73,87 +73,179 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         break;
     }
     case STORE: {
-        //
+        ret.reg_rs1_index = rs1;
+        ret.reg_rs2_index = rs2;
+        ret.reg_rs1_val = self->arch_state.gpr[rs1];
+        ret.reg_rs2_val = self->arch_state.gpr[rs2];
+        ret.imm_signext = (inst.S_TYPE.imm_11_5 << 5) + inst.S_TYPE.imm_4_0;
+        ret.alu_op1_sel = reg_rs1;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.is_mem = true;
+        ret.is_store = true;
+        ret.rd_write_sel = skip;
         break;
     }
     case BRANCH: {
-        //
+
+        ret.reg_rs1_index = rs1;
+        ret.reg_rs2_index = rs2;
+        ret.reg_rs1_val = self->arch_state.gpr[rs1];
+        ret.reg_rs2_val = self->arch_state.gpr[rs2];
+        ret.imm_signext =
+            (inst.B_TYPE.imm_12 << 12) + (inst.B_TYPE.imm_11 << 11) +
+            (inst.B_TYPE.imm_10_5 << 5) + (inst.B_TYPE.imm_4_1 << 1);
+        ret.alu_op1_sel = reg_rs1;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.is_branch = true;
+        ret.rd_write_sel = skip;
         break;
     }
     case JAL: {
-        //
+        ret.reg_rd_index = rd;
+        ret.imm_signext =
+            (inst.J_TYPE.imm_20 << 20) + (inst.J_TYPE.imm_19_12 << 12) +
+            (inst.J_TYPE.imm_11 << 11) + (inst.J_TYPE.imm_10_1 << 1);
+        ret.alu_op1_sel = current_pc;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.alu_op = Add;
+        ret.is_branch = true;
+        ret.branch_type = jump_anyway;
+        ret.rd_write_sel = pc_plus_4;
         break;
     }
     case JALR: {
-        //
+        ret.reg_rd_index = rd;
+        ret.imm_signext = inst.I_TYPE.imm_11_0;
+        ret.alu_op1_sel = reg_rs1;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.alu_op = Add;
+        ret.is_branch = true;
+        ret.branch_type = jump_anyway;
+        ret.rd_write_sel = pc_plus_4;
         break;
     }
     case AUIPC: {
-        //
+        ret.reg_rd_index = rd;
+        ret.imm_signext = inst.U_TYPE.imm_31_12 << 12;
+        ret.alu_op1_sel = current_pc;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.alu_op = Add;
+        ret.rd_write_sel = alu_result;
         break;
     }
     case LUI: {
-        //
+        ret.reg_rd_index = rd;
+        ret.imm_signext = inst.U_TYPE.imm_31_12 << 12;
+        ret.alu_op1_sel = zero;
+        ret.alu_op2_sel = imm_sign_ext;
+        ret.alu_op = Add;
+        ret.rd_write_sel = alu_result;
         break;
     }
     }
 
     // decode alu_op
     switch (inst.R_TYPE.opcode) {
-    case OP: {
-        //
-        break;
-    }
+    case OP:
     case OP_IMM: {
-        //
+        switch (func3) {
+        case ADD_SUB_FUNC3: {
+            if (opcode == OP) {
+                if (func7) {
+                    ret.alu_op = Sub;
+                } else {
+                    ret.alu_op = Add;
+                }
+            } else {
+                ret.alu_op = Add;
+            }
+            break;
+        }
+        case SLL_FUNC3: {
+            ret.alu_op = Sll;
+            break;
+        }
+        case SLT_FUNC3: {
+            ret.alu_op = Slt;
+            break;
+        }
+        case SLTU_FUNC3: {
+            ret.alu_op = Sltu;
+            break;
+        }
+        case XOR_FUNC3: {
+            ret.alu_op = Xor;
+            break;
+        }
+        case SRL_SRA_FUNC3: {
+            if (func7) {
+                ret.alu_op = Sra;
+            } else {
+                ret.alu_op = Srl;
+            }
+            break;
+        }
+        case OR_FUNC3: {
+            ret.alu_op = Or;
+            break;
+        }
+        case AND_FUNC3: {
+            ret.alu_op = And;
+        }
+        }
         break;
     }
-    case LOAD: {
-        //
-        break;
-    }
-    case STORE: {
-        //
-        break;
-    }
-    case BRANCH: {
-        //
-        break;
-    }
-    case JAL: {
-        //
-        break;
-    }
-    case JALR: {
-        //
-        break;
-    }
-    case AUIPC: {
-        //
-        break;
-    }
-    case LUI: {
-        //
-        break;
+    default: {
     }
     }
 
-    // decode load/store memory length
+    // decode mem_length and load_signext
     if (opcode == LOAD || opcode == STORE) {
         switch (func3) {
-        case 0b000: {
-            //
+        case LBU_FUNC3:
+        case SB_FUNC3: {
+            ret.mem_length = 1;
             break;
         }
-        case 0b001: {
-            //
-            break;
-        }
-        case 0b010: {
-            //
+        case SH_FUNC3:
+        case LHU_FUNC3: {
+            ret.mem_length = 2;
             break;
         }
         default: {
+            ret.mem_length = 4;
+        }
+        }
+    }
+    if (opcode == LOAD && func3 != LBU_FUNC3 && func3 != LHU_FUNC3) {
+        ret.load_signext = true;
+    }
+
+    // decode types of conditional-branch
+    if (opcode == BRANCH) {
+        switch (func3) {
+        case BEQ_FUNC3: {
+            ret.branch_type = eq;
+            break;
+        }
+        case BNE_FUNC3: {
+            ret.branch_type = neq;
+            break;
+        }
+        case BLT_FUNC3: {
+            ret.branch_type = lt;
+            break;
+        }
+        case BGE_FUNC3: {
+            ret.branch_type = ge;
+            break;
+        }
+        case BLTU_FUNC3: {
+            ret.branch_type = ltu;
+            break;
+        }
+        case BGEU_FUNC3: {
+            ret.branch_type = geu;
         }
         }
     }
@@ -393,7 +485,7 @@ void Core_ctor(Core *self) {
 
     // initialize base class (Tick)
     Tick_ctor(&self->super);
-    struct TickVtbl const vtbl = {.tick = SIGNATURE_TICK_TICK(Core)};
+    static struct TickVtbl const vtbl = {.tick = SIGNATURE_TICK_TICK(Core)};
     self->super.vtbl = &vtbl;
 }
 

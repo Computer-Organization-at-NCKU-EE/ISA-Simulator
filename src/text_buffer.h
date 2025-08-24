@@ -7,6 +7,9 @@
 
 #include <stdbool.h>
 
+#define TEXT_BUFFER_MMAP_BASE 0xfffffff8
+#define TEXT_BUFFER_SIZE 0x4
+
 typedef struct {
     // derived base class
     AbstractMem abstract_mem_super;

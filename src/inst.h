@@ -18,7 +18,7 @@ typedef union {
         uint32_t rd : 5;
         uint32_t func3 : 3;
         uint32_t rs1 : 5;
-        int64_t imm_11_0 : 12;
+        int32_t imm_11_0 : 12;
     } I_TYPE;
     struct {
         uint32_t opcode : 7;
@@ -26,30 +26,30 @@ typedef union {
         uint32_t func3 : 3;
         uint32_t rs1 : 5;
         uint32_t rs2 : 5;
-        int64_t imm_11_5 : 7;
+        int32_t imm_11_5 : 7;
     } S_TYPE;
     struct {
         uint32_t opcode : 7;
         uint32_t rd : 5;
-        int64_t imm_31_12 : 20;
+        int32_t imm_31_12 : 20;
     } U_TYPE;
     struct {
         uint32_t opcode : 7;
-        int64_t imm_11 : 1;
-        int64_t imm_4_1 : 4;
+        uint32_t imm_11 : 1;
+        uint32_t imm_4_1 : 4;
         uint32_t func3 : 3;
         uint32_t rs1 : 5;
         uint32_t rs2 : 5;
-        uint64_t imm_10_5 : 6;
-        int64_t imm_12 : 1; // highest imm
+        uint32_t imm_10_5 : 6;
+        int32_t imm_12 : 1; // highest imm
     } B_TYPE;
     struct {
         uint32_t opcode : 7;
         uint32_t rd : 5;
-        uint64_t imm_19_12 : 8;
-        uint64_t imm_11 : 1;
-        uint64_t imm_10_1 : 10;
-        int64_t imm_20 : 1; // highest imm
+        uint32_t imm_19_12 : 8;
+        uint32_t imm_11 : 1;
+        uint32_t imm_10_1 : 10;
+        int32_t imm_20 : 1; // highest imm
     } J_TYPE;
     uint32_t raw;
 } inst_t;

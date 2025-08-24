@@ -24,32 +24,30 @@ int ISS_ctor(ISS *self, const char *elf_file_name) {
     TextBuffer_ctor(&self->text_buffer_mmio);
 
     // add ROM into core's mmap
-    addr_t ROM_base = 0x0;
     mmap_unit_t ROM_mmap_unit = {
-        .addr_bound = {.first = ROM_base, .second = ROM_base + ROM_SIZE},
+        .addr_bound = {.first = ROM_MMAP_BASE,
+                       .second = ROM_MMAP_BASE + ROM_SIZE},
         .device_ptr = (AbstractMem *)&self->rom_mmio};
     Core_add_device(&self->core, ROM_mmap_unit);
 
     // add main memory into core's mmap
-    addr_t main_mem_base = MAIN_MEM_MMAP_BASE;
     mmap_unit_t main_mem_mmap_unit = {
-        .addr_bound = {.first = main_mem_base,
-                       .second = main_mem_base + MAIN_MEM_SIZE},
+        .addr_bound = {.first = MAIN_MEM_MMAP_BASE,
+                       .second = MAIN_MEM_MMAP_BASE + MAIN_MEM_SIZE},
         .device_ptr = (AbstractMem *)&self->main_mem_mmio};
     Core_add_device(&self->core, main_mem_mmap_unit);
 
     // add text buffer into core's mmap
-    addr_t text_buffer_base = 0xfffffff8;
     mmap_unit_t text_buffer_mmap_unit = {
-        .addr_bound = {.first = text_buffer_base,
-                       .second = text_buffer_base + 0x4},
+        .addr_bound = {.first = TEXT_BUFFER_MMAP_BASE,
+                       .second = TEXT_BUFFER_MMAP_BASE + TEXT_BUFFER_SIZE},
         .device_ptr = (AbstractMem *)&self->text_buffer_mmio};
     Core_add_device(&self->core, text_buffer_mmap_unit);
 
     // add halt flag into core's mmap
-    addr_t halt_base = 0xfffffffc;
     mmap_unit_t halt_mmap_unit = {
-        .addr_bound = {.first = halt_base, .second = halt_base + 0x4},
+        .addr_bound = {.first = HALT_MMAP_BASE,
+                       .second = HALT_MMAP_BASE + HALT_SIZE},
         .device_ptr = (AbstractMem *)&self->halt_mmio};
     Core_add_device(&self->core, halt_mmap_unit);
 

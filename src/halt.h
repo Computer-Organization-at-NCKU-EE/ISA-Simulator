@@ -5,6 +5,9 @@
 
 #include <stdbool.h>
 
+#define HALT_MMAP_BASE 0xfffffffc
+#define HALT_SIZE 0x4
+
 typedef struct {
     // super classes
     AbstractMem super;

@@ -8,13 +8,25 @@
 #include <assert.h>
 
 DECLARE_ABSTRACT_MEM_LOAD(TextBuffer) {
+    Assert(self != NULL, "");
+    Assert(base_addr >= TEXT_BUFFER_MMAP_BASE &&
+               base_addr + length < TEXT_BUFFER_MMAP_BASE + TEXT_BUFFER_SIZE,
+           "");
+    Assert(length == 1, "");
+
     TextBuffer *self_ = container_of(self, TextBuffer, abstract_mem_super);
-    //
+    buffer[0] = self_->buffer;
 }
 
 DECLARE_ABSTRACT_MEM_STORE(TextBuffer) {
+    Assert(self != NULL, "");
+    Assert(base_addr >= TEXT_BUFFER_MMAP_BASE &&
+               base_addr + length < TEXT_BUFFER_MMAP_BASE + TEXT_BUFFER_SIZE,
+           "");
+    Assert(length == 1, "");
+
     TextBuffer *self_ = container_of(self, TextBuffer, abstract_mem_super);
-    //
+    self_->buffer = ref_data[0];
 }
 
 DECLARE_TICK_TICK(TextBuffer) {
