@@ -1,13 +1,13 @@
 # CMake version requirements
 cmake_minimum_required(VERSION 3.21...3.28)
 if(${CMAKE_VERSION} VERSION_LESS 3.28)
-  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION} ${CMAKE_MINOR_VERSION})
+    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION} ${CMAKE_MINOR_VERSION})
 endif()
 
 # project information
 project(RISCV-ISS VERSION 0.1.0
-  DESCRIPTION "A RISC-V ISA Simulator"
-  LANGUAGES C)
+        DESCRIPTION "A RISC-V ISA Simulator"
+        LANGUAGES C)
 
 # set C standard
 set(CMAKE_C_STANDARD 11)
@@ -17,10 +17,9 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 add_subdirectory(src)
 
 # # Testing
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  include(CTest)
+if (PROJECT_IS_TOP_LEVEL)
+    include(CTest)
 endif()
-
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-  add_subdirectory(tests)
+    add_subdirectory(tests)
 endif()

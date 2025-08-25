@@ -1,5 +1,5 @@
 add_executable(RiscvTestsTester riscv_tests_tester.c)
-target_link_libraries(RiscvTestsTester libiss)
+target_link_libraries(RiscvTestsTester iss)
 
 set(TestList
     add sub sll slt sltu xor srl sra or and
@@ -11,5 +11,5 @@ set(TestList
 
 foreach(test_case IN LISTS TestList)
     add_test(NAME Test_${test_case}
-            COMMAND RiscvTestsTester ../../riscv-tests/isa/rv32ui-p-${test_case}) 
+            COMMAND RiscvTestsTester ${CMAKE_SOURCE_DIR}/riscv-tests/isa/rv32ui-p-${test_case}) 
 endforeach()

@@ -1,8 +1,7 @@
-add_executable(iss)
-add_library(libiss)
+add_library(iss)
+add_executable(main)
 
-set(SRCS
-  main.c
+set(LIB_SRCS
   iss.c
   core.c
   main_mem.c
@@ -14,8 +13,10 @@ set(SRCS
   tick.c
   abstract_mem.c
 )
-target_sources(iss PRIVATE ${SRCS})
-target_sources(libiss PRIVATE ${SRCS})
+target_sources(iss PRIVATE ${LIB_SRCS})
+target_sources(main PRIVATE main.c)
+
+target_link_libraries(main PRIVATE iss)
 
 target_include_directories(iss
   PUBLIC
@@ -23,11 +24,9 @@ target_include_directories(iss
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_include_directories(libiss
+target_include_directories(main
   PUBLIC
     ${CMAKE_SOURCE_DIR}/include
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_options(iss
@@ -35,8 +34,8 @@ target_compile_options(iss
     # -Wall -Wextra -Wpedantic -Werror
     -Wall -Werror
 )
-target_compile_options(libiss
-  PUBLIC
+target_compile_options(main
+  PRIVATE
     # -Wall -Wextra -Wpedantic -Werror
     -Wall -Werror
 )
