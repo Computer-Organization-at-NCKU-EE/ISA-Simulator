@@ -22,7 +22,7 @@ DECLARE_ABSTRACT_MEM_STORE(MainMem) {
 
     MainMem *self_ = container_of(self, MainMem, super);
     for (int i = 0; i < length; i++) {
-        self_->mem[i] = ref_data[base_addr + i];
+        self_->mem[base_addr + i] = ref_data[i];
     }
 }
 

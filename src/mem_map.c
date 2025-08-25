@@ -1,5 +1,6 @@
 #include "mem_map.h"
 #include "abstract_mem.h"
+#include "common.h"
 
 #include <stdlib.h>
 #include <assert.h>
@@ -58,7 +59,8 @@ void MemoryMap_generic_load(MemoryMap *self, addr_t base_addr, unsigned length,
             mmap_unit_ptr = &self->memory_map_arr[i];
         }
     }
-    assert((mmap_unit_ptr != NULL) && "MMIO device not found!");
+    Assert(mmap_unit_ptr != NULL,
+           "MMIO search failed! The requested base addr is: 0x%08x", base_addr);
 
     // call generic load function of the device
     AbstractMem_load(mmap_unit_ptr->device_ptr,
@@ -78,7 +80,8 @@ void MemoryMap_generic_store(MemoryMap *self, addr_t base_addr, unsigned length,
             mmap_unit_ptr = &self->memory_map_arr[i];
         }
     }
-    assert((mmap_unit_ptr != NULL) && "MMIO device not found!");
+    Assert(mmap_unit_ptr != NULL,
+           "MMIO search failed! The requested address is: 0x%08x", base_addr);
 
     // call generic store function of the device
     AbstractMem_store(mmap_unit_ptr->device_ptr,

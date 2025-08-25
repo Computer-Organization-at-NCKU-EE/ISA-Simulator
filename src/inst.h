@@ -22,7 +22,7 @@ typedef union {
     } I_TYPE;
     struct {
         uint32_t opcode : 7;
-        uint64_t imm_4_0 : 5;
+        uint32_t imm_4_0 : 5;
         uint32_t func3 : 3;
         uint32_t rs1 : 5;
         uint32_t rs2 : 5;

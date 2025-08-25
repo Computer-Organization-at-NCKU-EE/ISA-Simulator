@@ -68,7 +68,7 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         ret.imm_signext = inst.I_TYPE.imm_11_0;
         ret.alu_op1_sel = reg_rs1;
         ret.alu_op2_sel = imm_sign_ext;
-        ret.rd_write_sel = alu_result;
+        ret.rd_write_sel = mem_load;
         ret.is_mem = true;
         break;
     }
@@ -113,6 +113,8 @@ static uop_t Core_decode(Core *self, inst_t inst) {
         break;
     }
     case JALR: {
+        ret.reg_rs1_index = rs1;
+        ret.reg_rs1_val = self->arch_state.gpr[rs1];
         ret.reg_rd_index = rd;
         ret.imm_signext = inst.I_TYPE.imm_11_0;
         ret.alu_op1_sel = reg_rs1;
@@ -327,7 +329,7 @@ static void Core_execute(Core *self, uop_t uop) {
         break;
     }
     case Sra: {
-        alu_cal_result = (int32_t)op1 << (op2 & 0x1f);
+        alu_cal_result = (int32_t)op1 >> (op2 & 0x1f);
         break;
     }
     }
@@ -367,15 +369,15 @@ static void Core_execute(Core *self, uop_t uop) {
                 switch (len) {
                 case 1: {
                     mem_load_buffer |= _buffer[0];
-                    if (_buffer[1] >> 7) {
+                    if (_buffer[0] & 0x80) {
                         mem_load_buffer |= 0xffffff << 8;
                     }
                     break;
                 }
                 case 2: {
                     mem_load_buffer |= _buffer[0];
-                    mem_load_buffer |= _buffer[1];
-                    if (_buffer[2] >> 7) {
+                    mem_load_buffer |= _buffer[1] << 8;
+                    if (_buffer[1] & 0x80) {
                         mem_load_buffer |= 0xffff << 16;
                     }
                     break;
