@@ -5,23 +5,21 @@
 
 struct AbstractMemVtbl; // forward declaration
 typedef struct {
-    struct AbstractMemVtbl const *vtbl; // vtable ptr
+    struct AbstractMemVtbl const* vtbl; // vtable ptr
 } AbstractMem;
 
 // define virtual table attribute
 struct AbstractMemVtbl {
-    void (*load)(const AbstractMem *self, addr_t base_addr, unsigned length,
-                 byte_t *buffer);
-    void (*store)(AbstractMem *self, addr_t base_addr, unsigned length,
-                  const byte_t *ref_data);
+    void (*load) (const AbstractMem* self, addr_t base_addr, unsigned length, byte_t* buffer);
+    void (*store) (AbstractMem* self, addr_t base_addr, unsigned length, const byte_t* ref_data);
 };
 
 // define public APIs
-extern void AbstractMem_ctor(AbstractMem *self);
-extern void AbstractMem_load(const AbstractMem *self, addr_t base_addr,
-                             unsigned length, byte_t *buffer);
-extern void AbstractMem_store(AbstractMem *self, addr_t base_addr,
-                              unsigned length, const byte_t *ref_data);
+extern void AbstractMem_ctor (AbstractMem* self);
+extern void
+AbstractMem_load (const AbstractMem* self, addr_t base_addr, unsigned length, byte_t* buffer);
+extern void
+AbstractMem_store (AbstractMem* self, addr_t base_addr, unsigned length, const byte_t* ref_data);
 
 // define helper macros
 // clang-format off

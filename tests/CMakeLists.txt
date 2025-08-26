@@ -11,5 +11,5 @@ set(TestList
 
 foreach(test_case IN LISTS TestList)
     add_test(NAME Test_${test_case}
-            COMMAND RiscvTestsTester ${CMAKE_SOURCE_DIR}/riscv-tests/isa/rv32ui-p-${test_case}) 
+             COMMAND RiscvTestsTester ${CMAKE_SOURCE_DIR}/riscv-tests/isa/rv32ui-p-${test_case}) 
 endforeach()

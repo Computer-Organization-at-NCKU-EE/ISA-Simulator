@@ -59,34 +59,34 @@ typedef union {
  */
 typedef enum {
     /* 12 types in total */
-    OP = 0b0110011,
+    OP     = 0b0110011,
     OP_IMM = 0b0010011,
-    LOAD = 0b0000011,
-    STORE = 0b0100011,
+    LOAD   = 0b0000011,
+    STORE  = 0b0100011,
     BRANCH = 0b1100011,
-    JAL = 0b1101111,
-    JALR = 0b1100111,
-    AUIPC = 0b0010111,
-    LUI = 0b0110111,
+    JAL    = 0b1101111,
+    JALR   = 0b1100111,
+    AUIPC  = 0b0010111,
+    LUI    = 0b0110111,
     // SYSTEM = 0b1110011,
 } OPCODE;
 
 typedef enum {
     ADD_SUB_FUNC3 = 0b000,
-    SLL_FUNC3 = 0b001,
-    SLT_FUNC3 = 0b010,
-    SLTU_FUNC3 = 0b011,
-    XOR_FUNC3 = 0b100,
+    SLL_FUNC3     = 0b001,
+    SLT_FUNC3     = 0b010,
+    SLTU_FUNC3    = 0b011,
+    XOR_FUNC3     = 0b100,
     SRL_SRA_FUNC3 = 0b101,
-    OR_FUNC3 = 0b110,
-    AND_FUNC3 = 0b111,
+    OR_FUNC3      = 0b110,
+    AND_FUNC3     = 0b111,
 } ARITHMETIC_FUNC3;
 
 typedef enum {
-    BEQ_FUNC3 = 0b000,
-    BNE_FUNC3 = 0b001,
-    BLT_FUNC3 = 0b100,
-    BGE_FUNC3 = 0b101,
+    BEQ_FUNC3  = 0b000,
+    BNE_FUNC3  = 0b001,
+    BLT_FUNC3  = 0b100,
+    BGE_FUNC3  = 0b101,
     BLTU_FUNC3 = 0b110,
     BGEU_FUNC3 = 0b111,
 } BRANCH_FUNC3;
@@ -99,10 +99,10 @@ typedef enum {
 } STORE_FUNC3;
 
 typedef enum {
-    LB_FUNC3 = 0b000,
-    LH_FUNC3 = 0b001,
-    LW_FUNC3 = 0b010,
-    LD_FUNC3 = 0b011,
+    LB_FUNC3  = 0b000,
+    LH_FUNC3  = 0b001,
+    LW_FUNC3  = 0b010,
+    LD_FUNC3  = 0b011,
     LBU_FUNC3 = 0b100,
     LHU_FUNC3 = 0b101,
     LWU_FUNC3 = 0b110,

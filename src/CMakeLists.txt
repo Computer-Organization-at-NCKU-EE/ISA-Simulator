@@ -2,16 +2,16 @@ add_library(iss)
 add_executable(main)
 
 set(LIB_SRCS
-  iss.c
-  core.c
-  main_mem.c
-  rom.c
-  halt.c
-  text_buffer.c
-  mem_map.c
-  load_elf.c
-  tick.c
-  abstract_mem.c
+    iss.c
+    core.c
+    main_mem.c
+    rom.c
+    halt.c
+    text_buffer.c
+    mem_map.c
+    load_elf.c
+    tick.c
+    abstract_mem.c
 )
 target_sources(iss PRIVATE ${LIB_SRCS})
 target_sources(main PRIVATE main.c)
@@ -19,23 +19,23 @@ target_sources(main PRIVATE main.c)
 target_link_libraries(main PRIVATE iss)
 
 target_include_directories(iss
-  PUBLIC
-    ${CMAKE_SOURCE_DIR}/include
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_include_directories(main
-  PUBLIC
-    ${CMAKE_SOURCE_DIR}/include
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
 )
 
 target_compile_options(iss
-  PUBLIC
-    # -Wall -Wextra -Wpedantic -Werror
-    -Wall -Werror
+    PRIVATE
+        # -Wall -Wextra -Wpedantic -Werror
+        -Wall -Werror
 )
 target_compile_options(main
-  PRIVATE
-    # -Wall -Wextra -Wpedantic -Werror
-    -Wall -Werror
+    PRIVATE
+        # -Wall -Wextra -Wpedantic -Werror
+        -Wall -Werror
 )

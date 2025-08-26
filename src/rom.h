@@ -15,6 +15,6 @@ typedef struct {
     byte_t boot_rom[ROM_SIZE];
 } ROM;
 
-extern void ROM_ctor(ROM *self);
+extern void ROM_ctor (ROM* self);
 
 #endif
