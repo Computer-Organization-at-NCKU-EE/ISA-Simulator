@@ -12,7 +12,7 @@ DECLARE_ABSTRACT_MEM_LOAD (TextBuffer) {
     Assert (base_addr + length <= TEXT_BUFFER_SIZE, "");
     Assert (length == 1, "");
 
-    TextBuffer* self_ = container_of (self, TextBuffer, abstract_mem_super);
+    TextBuffer *self_ = container_of (self, TextBuffer, abstract_mem_super);
     buffer[0]         = self_->buffer;
 }
 
@@ -21,12 +21,12 @@ DECLARE_ABSTRACT_MEM_STORE (TextBuffer) {
     Assert (base_addr + length <= TEXT_BUFFER_SIZE, "");
     Assert (length == 1, "");
 
-    TextBuffer* self_ = container_of (self, TextBuffer, abstract_mem_super);
+    TextBuffer *self_ = container_of (self, TextBuffer, abstract_mem_super);
     self_->buffer     = ref_data[0];
 }
 
 DECLARE_TICK_TICK (TextBuffer) {
-    TextBuffer* self_ = container_of (self, TextBuffer, tick_super);
+    TextBuffer *self_ = container_of (self, TextBuffer, tick_super);
     if (self_->valid) {
         printf ("%c", self_->buffer);
         self_->valid  = false;
@@ -34,7 +34,7 @@ DECLARE_TICK_TICK (TextBuffer) {
     }
 }
 
-void TextBuffer_ctor (TextBuffer* self) {
+void TextBuffer_ctor (TextBuffer *self) {
     assert (self != NULL);
 
     // Tick vtable initialization

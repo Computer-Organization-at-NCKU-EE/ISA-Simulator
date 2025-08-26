@@ -19,6 +19,6 @@ typedef struct {
     byte_t buffer;
 } TextBuffer;
 
-void TextBuffer_ctor (TextBuffer* self);
+void TextBuffer_ctor (TextBuffer *self);
 
 #endif

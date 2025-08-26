@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
-void load_elf (const char* file_name, byte_t* buffer, unsigned long buffer_size, reg_t* entry_pc) {
+void load_elf (const char *file_name, byte_t *buffer, unsigned long buffer_size, reg_t *entry_pc) {
     /* try to open ELF file */
-    FILE* f = fopen (file_name, "rb");
+    FILE *f = fopen (file_name, "rb");
     Assert (f != NULL, "Fail to open file: %s", file_name);
 
     /* read ELF header */

@@ -5,19 +5,19 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int MemoryMap_ctor (MemoryMap* self) {
+int MemoryMap_ctor (MemoryMap *self) {
     assert (self != NULL);
     self->num_device     = 0;
     self->memory_map_arr = NULL;
     return 0;
 }
 
-void MemoryMap_dtor (MemoryMap* self) {
+void MemoryMap_dtor (MemoryMap *self) {
     assert (self != NULL);
     free (self->memory_map_arr);
 }
 
-int MemoryMap_add_device (MemoryMap* self, mmap_unit_t new_mem_map_unit) {
+int MemoryMap_add_device (MemoryMap *self, mmap_unit_t new_mem_map_unit) {
     assert (self != NULL);
 
     if (self->num_device == 0) {
@@ -30,7 +30,7 @@ int MemoryMap_add_device (MemoryMap* self, mmap_unit_t new_mem_map_unit) {
     }
 
     self->num_device += 1;
-    mmap_unit_t* old_arr = self->memory_map_arr;
+    mmap_unit_t *old_arr = self->memory_map_arr;
     if (NULL == (self->memory_map_arr = malloc (self->num_device * sizeof (mmap_unit_t)))) {
         return -1;
     }
@@ -46,11 +46,11 @@ int MemoryMap_add_device (MemoryMap* self, mmap_unit_t new_mem_map_unit) {
     return 0;
 }
 
-void MemoryMap_generic_load (MemoryMap* self, addr_t base_addr, unsigned length, byte_t* buffer) {
+void MemoryMap_generic_load (MemoryMap *self, addr_t base_addr, unsigned length, byte_t *buffer) {
     assert (self != NULL);
 
     // search in self->memory_map_arr
-    mmap_unit_t* mmap_unit_ptr = NULL;
+    mmap_unit_t *mmap_unit_ptr = NULL;
     for (int i = 0; i < self->num_device; i++) {
         if ((base_addr >= self->memory_map_arr[i].addr_bound.first) &&
             (base_addr < self->memory_map_arr[i].addr_bound.second)) {
@@ -65,11 +65,11 @@ void MemoryMap_generic_load (MemoryMap* self, addr_t base_addr, unsigned length,
                       base_addr - mmap_unit_ptr->addr_bound.first, length, buffer);
 }
 
-void MemoryMap_generic_store (MemoryMap* self, addr_t base_addr, unsigned length, const byte_t* ref_data) {
+void MemoryMap_generic_store (MemoryMap *self, addr_t base_addr, unsigned length, const byte_t *ref_data) {
     assert (self != NULL);
 
     // search in self->memory_map_arr
-    mmap_unit_t* mmap_unit_ptr = NULL;
+    mmap_unit_t *mmap_unit_ptr = NULL;
     for (int i = 0; i < self->num_device; i++) {
         if ((base_addr >= self->memory_map_arr[i].addr_bound.first) &&
             (base_addr < self->memory_map_arr[i].addr_bound.second)) {

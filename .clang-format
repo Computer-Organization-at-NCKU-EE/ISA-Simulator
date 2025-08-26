@@ -56,7 +56,7 @@ Language: Cpp
 Standard: Cpp11
 
 # Pointer and reference alignment style. Possible values: Left, Right, Middle.
-PointerAlignment: Left
+PointerAlignment: Right
 
 # AccessModifierOffset (int)
 # The extra indent or outdent of access modifiers, e.g. public:.

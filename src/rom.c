@@ -12,7 +12,7 @@ DECLARE_ABSTRACT_MEM_LOAD (ROM) {
     Assert (base_addr + length <= ROM_SIZE, "");
     Assert (length == 4, "");
 
-    ROM* self_ = container_of (self, ROM, super);
+    ROM *self_ = container_of (self, ROM, super);
     for (int i = 0; i < length; i++) {
         buffer[i] = self_->boot_rom[base_addr + i];
     }
@@ -22,7 +22,7 @@ DECLARE_ABSTRACT_MEM_STORE (ROM) {
     Panic ("ROM should not be modified!");
 }
 
-void ROM_ctor (ROM* self) {
+void ROM_ctor (ROM *self) {
     assert (self != NULL);
     AbstractMem_ctor (&self->super);
     static struct AbstractMemVtbl const vtbl = {
