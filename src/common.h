@@ -21,15 +21,15 @@
     })
 
 /* macros for assertion and debugging */
-#define Assert(cond, format, ...)                         \
-    do {                                                  \
-        if (!(cond)) {                                    \
-            fprintf (stderr,                              \
-            format ", failure at %s:%d/%s()"              \
-                   "\n",                                  \
-            ##__VA_ARGS__, __FILE__, __LINE__, __func__); \
-            assert (cond);                                \
-        }                                                 \
+#define Assert(cond, format, ...)                                  \
+    do {                                                           \
+        if (!(cond)) {                                             \
+            fprintf (stderr,                                       \
+                     format ", failure at %s:%d/%s()"              \
+                            "\n",                                  \
+                     ##__VA_ARGS__, __FILE__, __LINE__, __func__); \
+            assert (cond);                                         \
+        }                                                          \
     } while (0)
 #define Perror(cond, format, ...) \
     Assert (cond, format ": %s", ##__VA_ARGS__, strerror (errno))

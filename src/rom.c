@@ -25,8 +25,9 @@ DECLARE_ABSTRACT_MEM_STORE (ROM) {
 void ROM_ctor (ROM* self) {
     assert (self != NULL);
     AbstractMem_ctor (&self->super);
-    static struct AbstractMemVtbl const vtbl = { .load = &SIGNATURE_ABSTRACT_MEM_LOAD (ROM),
-        .store = &SIGNATURE_ABSTRACT_MEM_STORE (ROM) };
+    static struct AbstractMemVtbl const vtbl = {
+        .load = &SIGNATURE_ABSTRACT_MEM_LOAD (ROM), .store = &SIGNATURE_ABSTRACT_MEM_STORE (ROM)
+    };
     self->super.vtbl = &vtbl; // replace vtbl of base class
 
     // initialize boot rom code

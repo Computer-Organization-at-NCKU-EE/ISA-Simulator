@@ -32,8 +32,10 @@ void Halt_ctor (Halt* self) {
     assert ((self != NULL) && "Halt *self should not be null ptr");
 
     AbstractMem_ctor (&self->super);
-    static struct AbstractMemVtbl const vtbl = { .load = &SIGNATURE_ABSTRACT_MEM_LOAD (Halt),
-        .store = &SIGNATURE_ABSTRACT_MEM_STORE (Halt) };
+    static struct AbstractMemVtbl const vtbl = {
+        .load  = &SIGNATURE_ABSTRACT_MEM_LOAD (Halt),
+        .store = &SIGNATURE_ABSTRACT_MEM_STORE (Halt)
+    };
     self->super.vtbl = &vtbl;
 
     // initialize jalt_flag

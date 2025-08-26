@@ -31,8 +31,10 @@ void MainMem_ctor (MainMem* self) {
 
     // initlaize base class
     AbstractMem_ctor (&self->super);
-    static struct AbstractMemVtbl const vtbl = { .load = &SIGNATURE_ABSTRACT_MEM_LOAD (MainMem),
-        .store = &SIGNATURE_ABSTRACT_MEM_STORE (MainMem) };
+    static struct AbstractMemVtbl const vtbl = {
+        .load  = &SIGNATURE_ABSTRACT_MEM_LOAD (MainMem),
+        .store = &SIGNATURE_ABSTRACT_MEM_STORE (MainMem)
+    };
     self->super.vtbl = &vtbl;
     // initialize self->mem
     memset (&self->mem, 0, sizeof (byte_t) * MAIN_MEM_SIZE);
