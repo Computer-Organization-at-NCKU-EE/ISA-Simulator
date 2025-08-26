@@ -13,13 +13,13 @@ project(RISCV-ISS VERSION 0.1.0
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# Build rules for target main
+# add src subdirectory
 add_subdirectory(src)
 
 # # Testing
 if (PROJECT_IS_TOP_LEVEL)
     include(CTest)
-endif()
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-    add_subdirectory(tests)
+    if (BUILD_TESTING)
+        add_subdirectory(tests)
+    endif()
 endif()

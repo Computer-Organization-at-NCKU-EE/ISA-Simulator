@@ -25,7 +25,7 @@ target_include_directories(iss
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_include_directories(main
-    PUBLIC
+    PRIVATE
         ${CMAKE_SOURCE_DIR}/include
 )
 
