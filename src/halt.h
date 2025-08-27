@@ -15,6 +15,6 @@ typedef struct {
     bool halt_flag;
 } Halt;
 
-void Halt_ctor (Halt *self);
+void Halt_ctor(Halt *self);
 
 #endif

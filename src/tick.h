@@ -9,12 +9,12 @@ typedef struct {
 
 // define virtual table
 struct TickVtbl {
-    void (*tick) (Tick *const self);
+    void (*tick)(Tick *const self);
 };
 
 // define public APIs
-extern void Tick_ctor (Tick *const self);
-extern void Tick_tick (Tick *const self);
+extern void Tick_ctor(Tick *const self);
+extern void Tick_tick(Tick *const self);
 
 // helper macros for children classes
 // clang-format off

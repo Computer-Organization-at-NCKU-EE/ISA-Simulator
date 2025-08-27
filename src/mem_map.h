@@ -19,13 +19,13 @@ typedef struct {
 
 /* Public APIs */
 // member functions
-extern int MemoryMap_ctor (MemoryMap *self);
-extern void MemoryMap_dtor (MemoryMap *self);
-extern int MemoryMap_add_device (MemoryMap *self, mmap_unit_t new_device);
+extern int MemoryMap_ctor(MemoryMap *self);
+extern void MemoryMap_dtor(MemoryMap *self);
+extern int MemoryMap_add_device(MemoryMap *self, mmap_unit_t new_device);
 // generic load/store APIs
 extern void
-MemoryMap_generic_load (MemoryMap *self, addr_t base_addr, unsigned length, byte_t *buffer);
+MemoryMap_generic_load(MemoryMap *self, addr_t base_addr, unsigned length, byte_t *buffer);
 extern void
-MemoryMap_generic_store (MemoryMap *self, addr_t base_addr, unsigned length, const byte_t *ref_data);
+MemoryMap_generic_store(MemoryMap *self, addr_t base_addr, unsigned length, const byte_t *ref_data);
 
 #endif

@@ -12,6 +12,6 @@ typedef struct {
     byte_t mem[MAIN_MEM_SIZE];
 } MainMem;
 
-extern void MainMem_ctor (MainMem *self);
+extern void MainMem_ctor(MainMem *self);
 
 #endif
