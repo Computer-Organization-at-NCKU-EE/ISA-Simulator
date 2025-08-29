@@ -23,6 +23,7 @@ DECLARE_ABSTRACT_MEM_STORE(TextBuffer) {
 
     TextBuffer *self_ = container_of(self, TextBuffer, abstract_mem_super);
     self_->buffer     = ref_data[0];
+    self_->valid      = true;
 }
 
 DECLARE_TICK_TICK(TextBuffer) {

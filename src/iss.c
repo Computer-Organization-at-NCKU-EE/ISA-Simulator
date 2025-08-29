@@ -69,13 +69,15 @@ int ISS_ctor(ISS **self, const char *elf_file_name) {
     Core_add_device(&self_->core, halt_mmap_unit);
 
     // load ELF into main memory, and initialize PC
-    load_elf(elf_file_name, self_->main_mem_mmio.mem, MAIN_MEM_SIZE,
+    load_elf(elf_file_name, self_->rom_mmio.rom, ROM_SIZE,
              &self_->core.arch_state.current_pc);
 
     return 0;
 }
 
 void ISS_dtor(ISS *self) {
+    LOG("Calling ISS_dtor to clean up things...");
+
     // core destructor
     Core_dtor(&self->core);
     free(self);
@@ -89,7 +91,6 @@ void ISS_step(ISS *self, unsigned long n_step) {
     for (unsigned i = 0; i < n_step; i++) {
         // check halt flag
         if (unlikely(self->halt_mmio.halt_flag == true)) {
-            printf("reg $gp: %x", self->core.arch_state.gpr[3]);
             return;
         }
         // tick all tickable devices (includes core itself)

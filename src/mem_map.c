@@ -53,12 +53,13 @@ void MemoryMap_generic_load(MemoryMap *self, addr_t base_addr, unsigned length, 
     mmap_unit_t *mmap_unit_ptr = NULL;
     for (int i = 0; i < self->num_device; i++) {
         if ((base_addr >= self->memory_map_arr[i].addr_bound.first) &&
-            (base_addr < self->memory_map_arr[i].addr_bound.second)) {
+            (base_addr + length <= self->memory_map_arr[i].addr_bound.second)) {
             mmap_unit_ptr = &self->memory_map_arr[i];
         }
     }
-    Assert(mmap_unit_ptr != NULL,
-           "MMIO search failed! The requested base addr is: 0x%08x", base_addr);
+
+    Assert(mmap_unit_ptr != NULL, "MMIO search failed! The requested address is: 0x%08x, length is: %d",
+           base_addr, length);
 
     // call generic load function of the device
     AbstractMem_load(mmap_unit_ptr->device_ptr,
@@ -72,12 +73,13 @@ void MemoryMap_generic_store(MemoryMap *self, addr_t base_addr, unsigned length,
     mmap_unit_t *mmap_unit_ptr = NULL;
     for (int i = 0; i < self->num_device; i++) {
         if ((base_addr >= self->memory_map_arr[i].addr_bound.first) &&
-            (base_addr < self->memory_map_arr[i].addr_bound.second)) {
+            (base_addr + length <= self->memory_map_arr[i].addr_bound.second)) {
             mmap_unit_ptr = &self->memory_map_arr[i];
         }
     }
-    Assert(mmap_unit_ptr != NULL,
-           "MMIO search failed! The requested address is: 0x%08x", base_addr);
+
+    Assert(mmap_unit_ptr != NULL, "MMIO search failed! The requested address is: 0x%08x, length is: %d",
+           base_addr, length);
 
     // call generic store function of the device
     AbstractMem_store(mmap_unit_ptr->device_ptr,
