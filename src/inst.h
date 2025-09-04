@@ -52,7 +52,7 @@ typedef union {
         int32_t imm_20 : 1; // highest imm
     } J_TYPE;
     uint32_t raw;
-} inst_t;
+} inst_fields_t;
 
 /*
  * The name without any suffix (e.g., _FUNC3) represents the OPCODE type
@@ -115,5 +115,59 @@ typedef enum {
     EBREAK_FUNC12 = 0b000000000001,
 } SYSTEM_FUNC12;
  */
+
+
+/*
+ * Enumerate 37 instructions in total
+ * It should be generated in ISS_decode() stage
+ */
+typedef enum {
+    // OP
+    inst_add,
+    inst_sub,
+    inst_sll,
+    inst_slt,
+    inst_sltu,
+    inst_xor,
+    inst_srl,
+    inst_sra,
+    inst_or,
+    inst_and,
+    // OP-IMM
+    inst_addi,
+    inst_slti,
+    inst_sltiu,
+    inst_xori,
+    inst_ori,
+    inst_andi,
+    inst_slli,
+    inst_srli,
+    inst_srai,
+    // LOAD
+    isnt_lb,
+    inst_lh,
+    inst_lw,
+    inst_lbu,
+    inst_lhu,
+    // STORE
+    inst_sb,
+    inst_sh,
+    inst_sw,
+    // BRANCH
+    inst_beq,
+    inst_bne,
+    inst_blt,
+    inst_bge,
+    inst_bltu,
+    inst_bgeu,
+    // JAL
+    inst_jal,
+    // JALR
+    inst_jalr,
+    // AUIPC
+    inst_auipc,
+    // LUI
+    inst_lui,
+} inst_enum_t;
 
 #endif
