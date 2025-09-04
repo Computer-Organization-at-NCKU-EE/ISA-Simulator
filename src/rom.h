@@ -5,7 +5,7 @@
 #include "arch.h"
 
 #define ROM_MMAP_BASE 0x0
-#define ROM_SIZE 0x1000
+#define ROM_SIZE 0x2000
 
 typedef struct {
     // parent class
