@@ -7,7 +7,7 @@
 
 #include <stdbool.h>
 
-#define TEXT_BUFFER_MMAP_BASE 0xfffffff8
+#define TEXT_BUFFER_MMAP_BASE 0xfffffff7
 #define TEXT_BUFFER_SIZE 0x1
 
 typedef struct {
