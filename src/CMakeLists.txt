@@ -20,13 +20,13 @@ target_link_libraries(main PRIVATE iss)
 
 target_include_directories(iss
     PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/include
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_include_directories(main
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/include
 )
 
 target_compile_options(iss
