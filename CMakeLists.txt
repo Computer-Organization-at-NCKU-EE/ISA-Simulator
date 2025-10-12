@@ -16,7 +16,7 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 # add src subdirectory
 add_subdirectory(src)
 
-# # Testing
+# Testing
 if (PROJECT_IS_TOP_LEVEL)
     include(CTest)
     if (BUILD_TESTING)
