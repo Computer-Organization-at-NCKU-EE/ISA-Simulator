@@ -483,6 +483,11 @@ void Core_ctor(Core *self) {
     Tick_ctor(&self->super);
     static struct TickVtbl const vtbl = { .tick = SIGNATURE_TICK_TICK(Core) };
     self->super.vtbl                  = &vtbl;
+
+    // initialize register file
+    for (int i = 0; i < 32; i++) {
+        self->arch_state.gpr[i] = 0;
+    }
 }
 
 void Core_dtor(Core *self) {

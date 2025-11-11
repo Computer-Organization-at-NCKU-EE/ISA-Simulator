@@ -76,7 +76,7 @@ int ISS_ctor(ISS **self, const char *elf_file_name) {
 }
 
 void ISS_dtor(ISS *self) {
-    LOG("Calling ISS_dtor to clean up things...");
+    LOG("Calling ISS_dtor to clean up things...\n");
 
     // core destructor
     Core_dtor(&self->core);
